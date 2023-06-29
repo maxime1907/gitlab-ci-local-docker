@@ -2,8 +2,29 @@
 
 set -em
 
+# export DOCKER_HOST="unix:///run/user/1000/docker.sock"
+
 USER_ID=$(stat -c '%u' /app)
 GROUP_ID=$(stat -c '%g' /app)
+
+echo "Starting docker daemon..."
+
+dockerd-entrypoint.sh dockerd > /var/log/dockerd.log 2>&1 &
+
+while ! docker ps
+do
+    echo "Waiting for docker daemon..."
+    set +e
+    process=$(ps ax|grep -v grep|grep docker)
+    set -e
+    if [ "$process" == "" ]; 
+    then 
+        dockerd-entrypoint.sh dockerd > /var/log/dockerd.log 2>&1 &
+    fi
+    sleep 1
+done
+
+echo "Docker daemon started"
 
 echo "Launching gitlab-ci-local $@"
 
@@ -19,5 +40,7 @@ echo "Fixing folder permissions to $USER_ID:$GROUP_ID"
 
 chown -R $USER_ID:$GROUP_ID /app
 
-echo "exit $STATUS"
-exit $STATUS
+if [[ "$STATUS" != "0" ]]
+then
+    exit $STATUS
+fi
