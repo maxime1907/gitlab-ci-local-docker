@@ -30,6 +30,7 @@ docker run --rm --privileged \
 docker run --rm --privileged \
 	-v $PWD:/app \
 	-v $HOME/.ssh:/root/.ssh \
+	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
 	ghcr.io/maxime1907/gitlab-ci-local-docker:latest \
 	mysuperjob
