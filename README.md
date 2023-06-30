@@ -2,9 +2,9 @@
 
 This repository defines the unofficial gitlab-ci-local docker image.
 
-* [ubuntu](ubuntu/)
+* [docker dind](docker/dind)
 
-which are published to [ghcr.io](https://github.com/maxime1907/gitlab-ci-local-docker/pkgs/container/gitlab-ci-local).
+which are published to [ghcr.io](https://github.com/maxime1907/gitlab-ci-local-docker/pkgs/container/gitlab-ci-local-docker).
 
 
 __note__ - requires latest docker to be installed and available
@@ -14,7 +14,7 @@ __note__ - requires latest docker to be installed and available
 ### get docker image
 
 ```bash
-docker pull ghcr.io/maxime1907/gitlab-ci-local:latest
+docker pull ghcr.io/maxime1907/gitlab-ci-local-docker:latest
 ```
 
 ### run docker image
@@ -39,5 +39,5 @@ docker run --rm --privileged \
 
 ```bash
 export GITLAB_CI_LOCAL_VERSION="4.41.2"
-docker build --build-arg GITLAB_CI_LOCAL_VERSION=$GITLAB_CI_LOCAL_VERSION -t gitlab-ci-local:$GITLAB_CI_LOCAL_VERSION docker/dind
+docker build --build-arg GITLAB_CI_LOCAL_VERSION=$GITLAB_CI_LOCAL_VERSION -t gitlab-ci-local-docker:$GITLAB_CI_LOCAL_VERSION docker/dind
 ```
